@@ -7,7 +7,7 @@ client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
 
-# change test by garden
+# Garden TESTTTTTT
 @app.route('/')
 def home():
     return render_template('index.html')
