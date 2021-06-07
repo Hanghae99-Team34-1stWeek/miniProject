@@ -12,6 +12,9 @@ db = client.dbsparta
 def home():
     return render_template('index.html')
 
+@app.route('/main')
+def main():
+    return render_template('main.html')
 
 # API 역할을 하는 부분
 @app.route('/api/list', methods=['GET'])
