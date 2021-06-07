@@ -1,49 +1,165 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <script>
-        $(document).ready(function () {
-            showList();
-        });
 
-        function showList() {
-            $.ajax({
-                type: 'GET',
-                url: '/api/list?sample_give=샘플데이터',
-                data: {},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
+<script>
+    // $(document).ready(function () {
+    //     showList();
+    // });
+    //
+    // function showList() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/api/list?sample_give=샘플데이터',
+    //         data: {},
+    //         success: function (response) {
+    //             alert(response['msg']);
+    //         }
+    //     });
+    // }
+    //
+    // function modifyList(name) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/api/like',
+    //         data: {sample_give: '샘플데이터'},
+    //         success: function (response) {
+    //             alert(response['msg']);
+    //         }
+    //     });
+    // }
+    //
+    // function deleteList(name) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/api/delete',
+    //         data: {sample_give: '샘플데이터'},
+    //         success: function (response) {
+    //             alert(response['msg']);
+    //         }
+    //     });
+    // }
 
-        function modifyList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/like',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
+</script>
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+    }
 
-        function deleteList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/delete',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
+    .area-wrap {
+        width: 80%;
+        height: auto;
+        margin: 20vh auto 10vh auto;
+        display: flex;
+        justify-content: space-between;
+    }
 
-    </script>
-    <style>
-    </style>
+    input[type="radio"] {
+        display: none;
+    }
+
+    input[type="radio"] + label {
+        display: inline-block;
+        padding: 0;
+        background-color: lightgray;
+        color: dimgrey;
+        cursor: pointer;
+    }
+
+    input[type="radio"]:checked + label {
+        background-color: beige;
+        color: mediumpurple;
+    }
+
+    .card {
+        display: none;
+        width: 200px;
+        margin: 0 auto;
+    }
+
+    input[id='tab01']:checked ~ .con01 {
+        display: block;
+    }
+
+    input[id='tab02']:checked ~ .con02 {
+        display: block;
+    }
+
+    input[id='tab03']:checked ~ .con03 {
+        display: block;
+    }
+
+    input[id='tab04']:checked ~ .con04 {
+        display: block;
+    }
+
+    input[id='tab05']:checked ~ .con05 {
+        display: block;
+    }
+
+    .card-box {
+        width: 80%;
+        height: auto;
+        margin: auto;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
-    <!-- body -->
+<!-- body -->
+<div class="area-wrap">
+    <input type="radio" name="tabMenu" id="tab01" checked>
+    <label for="tab01">전체</label>
+    <input type="radio" name="tabMenu" id="tab02">
+    <label for="tab02">강원</label>
+    <input type="radio" name="tabMenu" id="tab03">
+    <label for="tab03">경기</label>
+    <input type="radio" name="tabMenu" id="tab04">
+    <label for="tab04">경남</label>
+    <input type="radio" name="tabMenu" id="tab05">
+    <label for="tab05">경북</label>
+</div>
+
+    <div class="card con01">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">test01</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+                content. This content is a little bit longer.</p>
+        </div>
+    </div>
+    <div class="card con02">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">test02</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+                content. This content is a little bit longer.</p>
+        </div>
+    </div>
+    <div class="card con03">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">test03</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+                content. This content is a little bit longer.</p>
+        </div>
+    </div>
+    <div class="card con04">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">test04</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+                content. This content is a little bit longer.</p>
+        </div>
+    </div>
+    <div class="card con05">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">test05</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+                content. This content is a little bit longer.</p>
+        </div>
+    </div>
+
 {% endblock %}
