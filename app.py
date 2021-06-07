@@ -7,10 +7,24 @@ client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
 
-# Garden TESTTTTTT
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/main')
+def main():
+    return render_template('main.html')
+
+
+@app.route('/mypage')
+def mypage():
+    return render_template('mypage.html')
+
+
+@app.route('/detail')
+def detail():
+    return render_template('pension_detail.html')
 
 
 # API 역할을 하는 부분
