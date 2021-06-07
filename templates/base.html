@@ -7,11 +7,104 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
         #navBar {
             width: 100%;
             height: 100px;
-            background-color: gray;
+
+        }
+
+        .col-md-3 {
+            background-color: black;
+            height: 100px;
+        }
+        span {
+            position: absolute;
+            left: 20%;
+            top: 5%;
+            font-weight: 1000;
+            transform: translate(-50%, -50%);
+            display: block;
+            color: #0B2161;
+            font-size: 55px;
+            letter-spacing: 5px;
+            cursor: pointer;
+        }
+
+        span::before {
+            content: "MO:PEN";
+            position: absolute;
+            color: transparent;
+            background-image: repeating-linear-gradient(
+                    45deg,
+                    transparent 0,
+                    transparent 2px,
+                    white 2px,
+                    white 4px
+            );
+            -webkit-background-clip: text;
+            top: 0px;
+            left: 0;
+            z-index: -1;
+            transition: 1s;
+        }
+
+        span::after {
+            content: "MO:PEN";
+            position: absolute;
+            color: transparent;
+            background-image: repeating-linear-gradient(
+                    135deg,
+                    transparent 0,
+                    transparent 2px,
+                    white 2px,
+                    white 4px
+            );
+            -webkit-background-clip: text;
+            top: 0px;
+            left: 0px;
+            transition: 0.7s;
+        }
+
+        span:hover:before {
+            top: 5px;
+            left: 5px;
+        }
+
+        span:hover:after {
+            top: -5px;
+            left: -5px;
+        }
+
+
+        .row .col-md-3 {
+
+        }
+
+        #navBar .row .col-md-3 {
+            text-align: center;
+        }
+
+        #logout, #mypage {
+            padding: 30px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
         }
     </style>
 
@@ -21,13 +114,17 @@
 </head>
 
 <body>
-<div id="navBar">
-    <h1>hello</h1>
-</div>
-{% block body %}
+<div id="navBar" class="container-fluid">
+    <div class="row md">
+        <div class="col-md-3" id="logotitle"><span>MO:PEN</span></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3" id="logout"><a href="">Log Out</a></div>
+        <div class="col-md-3" id="mypage"><a href="./mypage.html">My page</a></div>
+    </div>
 
-    <!-- body -->
-{% endblock %}
+    {% block body %}
+        <!-- body -->
+    {% endblock %}
 </body>
 
 </html>
