@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script>
+        $(document).ready(function () {
+            showList();
+        });
+
+        function showList() {
+            $.ajax({
+                type: 'GET',
+                url: '/api/list?sample_give=샘플데이터',
+                data: {},
+                success: function (response) {
+                    alert(response['msg']);
+                }
+            });
+        }
+
+        function modifyList(name) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/like',
+                data: {sample_give: '샘플데이터'},
+                success: function (response) {
+                    alert(response['msg']);
+                }
+            });
+        }
+
+        function deleteList(name) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/delete',
+                data: {sample_give: '샘플데이터'},
+                success: function (response) {
+                    alert(response['msg']);
+                }
+            });
+        }
+
+    </script>
+    <style>
+        .container {
+
+        }
+
+        #register {
+            border: 3px solid #0B2161;
+            border-radius: 15px;
+            width: 80%;
+            height: 600px;
+
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        form .row {
+            margin: 50px 0px;
+        }
+
+        label {
+            font-size: 32px;
+            width: 100%;
+            text-align: center;
+        }
+
+        input {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- body -->
+    <div class="container" id="register">
+        <h1 style="text-align: center; color: #0B2161; margin: 50px 0px;">Login</h1>
+
+        <form action="">
+            <div class="row md" id="idform">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><label for="" id="id_label">ID: </label></div>
+                <div class="col-md-4" style="text-align: center;"><input type="text" placeholder="Input ID"></div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <div class="row md" id="pwform">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><label for="" id="pw_label">PWSSWORD: </label></div>
+                <div class="col-md-4" style="text-align: center;"><input type="password" placeholder="Input PW"></div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <button class="btn btn-primary" type="button">Login</button>
+
+
+        </form>
+
+
+    </div>
+{% endblock %}
