@@ -3,42 +3,54 @@
 {% block head %}
 
 <script>
-    // $(document).ready(function () {
-    //     showList();
-    // });
-    //
-    // function showList() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/api/list?sample_give=샘플데이터',
-    //         data: {},
-    //         success: function (response) {
-    //             alert(response['msg']);
-    //         }
-    //     });
-    // }
-    //
-    // function modifyList(name) {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/api/like',
-    //         data: {sample_give: '샘플데이터'},
-    //         success: function (response) {
-    //             alert(response['msg']);
-    //         }
-    //     });
-    // }
-    //
-    // function deleteList(name) {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/api/delete',
-    //         data: {sample_give: '샘플데이터'},
-    //         success: function (response) {
-    //             alert(response['msg']);
-    //         }
-    //     });
-    // }
+    $(document).ready(function () {
+        showList();
+    });
+
+    function showList() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/list?sample_give=샘플데이터',
+            data: {},
+            success: function (response) {
+                // alert(response['msg']);
+            }
+        });
+    }
+
+    function modifyList(name) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/like',
+            data: {sample_give: '샘플데이터'},
+            success: function (response) {
+                // alert(response['msg']);
+            }
+        });
+    }
+
+    function deleteList(name) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/delete',
+            data: {sample_give: '샘플데이터'},
+            success: function (response) {
+                // alert(response['msg']);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $(".area-li").click(function () {
+            var idx = $(this).index();
+
+            $('.area-li').removeClass('all');
+            $('.all').eq(idx).addClass('on');
+
+            $('.menu-content').hide();
+            $('.menu-content').eq(idx).show();
+        })
+    });
 
 </script>
 <style>
@@ -47,119 +59,80 @@
         margin: 0;
     }
 
-    .area-wrap {
+    .area-menu-wrap {
         width: 80%;
         height: auto;
-        margin: 20vh auto 10vh auto;
-        display: flex;
-        justify-content: space-between;
+        margin: 15vh auto 10vh auto;
     }
 
-    input[type="radio"] {
-        display: none;
-    }
-
-    input[type="radio"] + label {
-        display: inline-block;
-        padding: 0;
-        background-color: lightgray;
-        color: dimgrey;
+    .area-li {
+        float: left;
+        list-style: none;
+        width: 20%;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
         cursor: pointer;
+        margin-bottom: 10vh;
     }
 
-    input[type="radio"]:checked + label {
-        background-color: beige;
-        color: mediumpurple;
+    /*.area-menu a {*/
+    /*    text-decoration: none;*/
+    /*    color: black;*/
+    /*}*/
+
+    .area-li:hover {
+        color: #636e72;
     }
 
-    .card {
-        display: none;
-        width: 200px;
-        margin: 0 auto;
+    .all {
+        font-weight: bold;
     }
 
-    input[id='tab01']:checked ~ .con01 {
-        display: block;
-    }
-
-    input[id='tab02']:checked ~ .con02 {
-        display: block;
-    }
-
-    input[id='tab03']:checked ~ .con03 {
-        display: block;
-    }
-
-    input[id='tab04']:checked ~ .con04 {
-        display: block;
-    }
-
-    input[id='tab05']:checked ~ .con05 {
-        display: block;
-    }
-
-    .card-box {
-        width: 80%;
+    .content-box {
         height: auto;
-        margin: auto;
     }
+
+    .menu-content {
+        display: none;
+        text-align: center;
+    }
+
+    .on {
+        display: block;
+    }
+
 </style>
 {% endblock %}
 
 {% block body %}
-<!-- body -->
-<div class="area-wrap">
-    <input type="radio" name="tabMenu" id="tab01" checked>
-    <label for="tab01">전체</label>
-    <input type="radio" name="tabMenu" id="tab02">
-    <label for="tab02">강원</label>
-    <input type="radio" name="tabMenu" id="tab03">
-    <label for="tab03">경기</label>
-    <input type="radio" name="tabMenu" id="tab04">
-    <label for="tab04">경남</label>
-    <input type="radio" name="tabMenu" id="tab05">
-    <label for="tab05">경북</label>
+<div class="area-menu-wrap">
+    <div class="area-menu">
+        <ul>
+            <li class="area-li all" tabindex="">전체</li>
+            <li class="area-li">강원</li>
+            <li class="area-li">경기</li>
+            <li class="area-li">인천</li>
+            <li class="area-li">경남</li>
+        </ul>
+    </div>
+    <div class="content-box">
+        <div id="tab-1" class="menu-content on">
+            content1
+        </div>
+        <div id="tab-2" class="menu-content on">
+            content2
+        </div>
+        <div id="tab-3" class="menu-content on">
+            content3
+        </div>
+        <div id="tab-4" class="menu-content on">
+            content4
+        </div>
+        <div id="tab-5" class="menu-content on">
+            content5
+        </div>
+    </div>
 </div>
-
-    <div class="card con01">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">test01</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.</p>
-        </div>
-    </div>
-    <div class="card con02">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">test02</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.</p>
-        </div>
-    </div>
-    <div class="card con03">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">test03</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.</p>
-        </div>
-    </div>
-    <div class="card con04">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">test04</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.</p>
-        </div>
-    </div>
-    <div class="card con05">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">test05</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.</p>
-        </div>
-    </div>
-
+<!-- body -->
 {% endblock %}
