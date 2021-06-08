@@ -16,95 +16,71 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+
     <style>
         * {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Jua', sans-serif;
         }
 
         #navBar {
-            width: 100%;
-            height: 100px;
 
-        }
-
-        .col-md-3 {
-            background-color: black;
-            height: 100px;
-        }
-        span {
-            position: absolute;
-            left: 20%;
-            top: 7%;
-            font-weight: 1000;
-            transform: translate(-50%, -50%);
-            display: block;
-            color: #0B2161;
-            font-size: 55px;
-            letter-spacing: 5px;
-            cursor: pointer;
-        }
-
-        span::before {
-            content: "MO:PEN";
-            position: absolute;
-            color: transparent;
-            background-image: repeating-linear-gradient(
-                    45deg,
-                    transparent 0,
-                    transparent 2px,
-                    white 2px,
-                    white 4px
-            );
-            -webkit-background-clip: text;
-            top: 0px;
-            left: 0;
-            z-index: -1;
-            transition: 1s;
-        }
-
-        span::after {
-            content: "MO:PEN";
-            position: absolute;
-            color: transparent;
-            background-image: repeating-linear-gradient(
-                    135deg,
-                    transparent 0,
-                    transparent 2px,
-                    white 2px,
-                    white 4px
-            );
-            -webkit-background-clip: text;
-            top: 0px;
-            left: 0px;
-            transition: 0.7s;
-        }
-
-        span:hover:before {
-            top: 5px;
-            left: 5px;
-        }
-
-        span:hover:after {
-            top: -5px;
-            left: -5px;
-        }
-
-
-        .row .col-md-3 {
-
-        }
-
-        #navBar .row .col-md-3 {
-            text-align: center;
         }
 
         #logout, #mypage {
-            padding: 30px;
+            margin-top:auto;
+            margin-bottom:auto;
+
+
+            text-align: center;
         }
 
-        a {
-            text-decoration: none;
+        .nav_a {
             color: white;
+            text-decoration: none;
+            font-size: 32px;
+        }
+
+        #logotitle:hover {
+            text-decoration: none;
+            text-shadow: 2px 2px #0080FF;
+        }
+
+        .nav_a:hover {
+            color: white;
+            text-decoration: none;
+            text-shadow: 5px 5px #0080FF;
+        }
+
+        #navBar > .row{
+            background-color: #0B2161;
+        }
+
+        .text-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #mopen {
+            font-size: 5vw;
+            font-weight: 900;
+            background-color: #0B2161;
+            color: #fff;
+            display: block;
+            padding: .3em;
+            border-radius: 15px;
+        }
+
+        #mopen:nth-child(2) {
+            position: absolute;
+            background-color: #fff;
+            color: #0B2161;
+            clip-path: inset(-1% -1% 50% -1%);
+            border-radius: 15px;
         }
     </style>
 
@@ -115,11 +91,19 @@
 
 <body>
 <div id="navBar" class="container-fluid">
-    <div class="row md">
-        <div class="col-md-3" id="logotitle"><span>MO:PEN</span></div>
+    <div class="row md" style="">
+        <div class="col-md-3">
+            <a id="logotitle" href="../main">
+                <div class="text-box" style="padding-top: 15px;">
+                    <h1 id="mopen">MO:PEN</h1>
+                    <h1 id="mopen">MO:PEN</h1>
+                </div>
+                </span></p>
+            </a>
+        </div>
         <div class="col-md-3"></div>
-        <div class="col-md-3" id="logout"><a href="">Log Out</a></div>
-        <div class="col-md-3" id="mypage"><a href="./mypage.html">My page</a></div>
+        <div class="col-md-3" id="logout"><a href="" class="nav_a">Log Out</a></div>
+        <div class="col-md-3" id="mypage"><a href="../mypage" class="nav_a">My page</a></div>
     </div>
 
     {% block body %}
