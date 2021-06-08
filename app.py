@@ -1,31 +1,39 @@
 from pymongo import MongoClient
 from flask import Flask, render_template, jsonify, request
 
-
 app = Flask(__name__)
 
+# ----- DB 연결 : 펜션 정보 -----#
 client = MongoClient('localhost', 27017)
-db = client.dbsparta
+dbMopen = client.mopen
+colPensionInfo = dbMopen.pensionInfo
 
 
+# ----- route -----#
 @app.route('/')
 def home():
     return render_template('index.html')
 
 
-@app.route('/main')
+# -- Main: 펜션 목록 페이지 --#
+@app.route('/main/', methods=['GET'])
 def main():
-    return render_template('main.html')
+    pensions = list(colPensionInfo.find({}))
+    return render_template('main.html', pensions=pensions)
+
+
+# # API 역할을 하는 부분
+# # 펜션 상세페이지
+@app.route('/detail/<path:pension_id>', methods=['GET'])
+def pension_detail(pension_id):
+    pension = colPensionInfo.find_one({'_id': pension_id})
+    # id 값으로 찾은 해당 펜션 정보(name, price, ...) 전부 전달
+    return render_template("pension_detail.html", pension=pension)
 
 
 @app.route('/mypage')
 def mypage():
     return render_template('mypage.html')
-
-
-@app.route('/detail')
-def detail():
-    return render_template('pension_detail.html')
 
 
 @app.route('/register')
@@ -36,23 +44,6 @@ def register():
 @app.route('/login')
 def login():
     return render_template('login.html')
-
-
-# API 역할을 하는 부분
-@app.route('/list', methods=['GET'])
-def show_list():
-    pensions = list(db.mystar.find({}, {'_id': False}))
-
-    return jsonify({'pensions_give': pensions})
-
-
-@app.route('/detail/<pension_id>', methods=['GET'])
-def pension_detail(pension_id):
-    # id 값으로 불러오기
-    pension = db.mopen.find_one({'_id': pension_id}, {'_id': False})
-
-    # id 값으로 찾은 해당 펜션 정보(name, price, ...) 전부 전달
-    return jsonify({'pension_give': pension})
 
 
 # register, login 기능은 공부 후 추가하기로
