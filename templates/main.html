@@ -15,22 +15,22 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-		<!-- api -->
-		<script>
+    <!-- api -->
+    <script>
         $(document).ready(function () {
             //showPensionList();
         });
 
-        // function showPensionList() {
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: '/main/',
-        //         data: {},
-        //         success: function (response) {
-        //             //alert(response['msg']);
-        //         }
-        //     });
-        // }
+        function showPensionList() {
+            $.ajax({
+                type: 'GET',
+                url: '/main/',
+                data: {},
+                success: function (response) {
+                    console.log()
+                }
+            });
+        }
 
         function modifyList(name) {
             $.ajax({
@@ -54,9 +54,11 @@
             });
         }
 
+
+
     </script>
 
-		<!-- 추후 디자인 및 레이아웃 수정 시 삭제할 부분 -->
+    <!-- 추후 디자인 및 레이아웃 수정 시 삭제할 부분 -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
@@ -64,51 +66,92 @@
         * {
             font-family: 'Jua', sans-serif;
         }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-image: url('../static/bgimage_blur.jpg');
+        }
+
+        .area-menu-wrap {
+            width: 900px;
+            margin: 15vh auto 5vh auto;
+        }
+
+        .area-menu {
+            width: 900px;
+        }
+
+        .area-ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .menu-title {
+            color: black;
+        }
+
+        .menu-title:hover {
+            text-decoration: none;
+            color: #718093;
+        }
+
         .posting-box {
             width: 500px;
             margin-top: 20px;
         }
+
         .wrap {
             width: 900px;
             margin: auto;
         }
+
         .container {
             padding-left: 50px;
         }
     </style>
 
 
-		<title>MO:PEN Main</title>
+    <title>MO:PEN Main</title>
 {% endblock %}
 
 {% block body %}
 
-<div class="wrap">
-		<div class="jumbotron jumbotron-fluid">
-				<div class="container">
-						<h1>메인상단블록</h1>
-						<div class="">
-						</div>
-				</div>
-		</div>
+    <div class="area-menu-wrap">
+        <div class="area-menu">
+            <ul class="area-ul">
+                <li><a class="menu-title" href="/main/?location=전체">전체</a></li>
+                <li><a class="menu-title" href="/main/?location=가평">가평</a></li>
+                <li><a class="menu-title" href="/main/?location=강릉">강릉</a></li>
+                <li><a class="menu-title" href="/main/?location=거제도">거제도</a></li>
+                <li><a class="menu-title" href="/main/?location=경주">경주</a></li>
+                <li><a class="menu-title" href="/main/?location=고성">고성</a></li>
+                <li><a class="menu-title" href="/main/?location=여수">여수</a></li>
+                <li><a class="menu-title" href="/main/?location=태안">태안</a></li>
+            </ul>
+        </div>
+    </div>
 
-		<div class="card-columns">
-				<!-- 펜션 블록 목록-->
-				{% for pension in pensions %}
-				<div class="card" id="{{pension._id}}" style="width: 18rem">
-						<!-- <a id="favBtn" class="favBtn btn btn-primary">즐겨찾기</a> -->
-						<a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
-							<img class="card-img-top pensioncard" src="{{pension.img}}" alt="pension image cap" style="cursor: pointer"/>
-						</a>
-						<div class="card-body">
-							<h5 class="card-location">{{pension.location}}</h5>
-							<h5 class="card-name">{{pension.name}}</h5>
-						평점: {{pension.score}}
-						</div>
-				</div>		
-				{% endfor %}
-		</div>
-		
-</div>
+
+    <div class="wrap">
+        <div class="card-columns">
+            <!-- 펜션 블록 목록-->
+            {% for pension in pensions %}
+                <div class="card" id="{{ pension._id }}" style="width: 18rem">
+                    <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
+                        <img class="card-img-top pensioncard" src="{{ pension.img }}" alt="pension image cap"
+                             style="cursor: pointer"/>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-location">{{ pension.location }}</h5>
+                        <h5 class="card-name">{{ pension.name }}</h5>
+                        평점: {{ pension.score }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
 
 {% endblock %}

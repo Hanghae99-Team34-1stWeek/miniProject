@@ -23,47 +23,6 @@
         })();
     </script>
 
-
-
-    <script>
-        $(document).ready(function () {
-            // showList();
-        });
-
-        function showList() {
-            $.ajax({
-                type: 'GET',
-                url: '/api/list?sample_give=샘플데이터',
-                data: {},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
-
-        function modifyList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/like',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
-
-        function deleteList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/delete',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
-
-    </script>
     <!-- 추후 디자인 및 레이아웃 수정 시 삭제할 부분 -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
@@ -71,6 +30,9 @@
     <style>
         * {
             font-family: 'Jua', sans-serif;
+        }
+        body {
+            background-image: url('../static/bgimage_blur.jpg');
         }
 
         #detail {
