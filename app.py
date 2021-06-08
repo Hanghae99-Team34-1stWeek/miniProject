@@ -19,8 +19,14 @@ def home():
 @app.route('/main/', methods=['GET'])
 def main():
     location = request.args["location"]
-    print(location)
-    pensions = list(colPensionInfo.find({'location': location}))
+    # print(location)
+    if location == "전체":
+        pensions = list(colPensionInfo.find({}))
+    else:
+        pensions = list(colPensionInfo.find({'location': location}))
+
+    # print(pensions)
+
     return render_template('main.html', pensions=pensions)
 
 
