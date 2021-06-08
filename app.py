@@ -18,7 +18,9 @@ def home():
 # -- Main: 펜션 목록 페이지 --#
 @app.route('/main/', methods=['GET'])
 def main():
-    pensions = list(colPensionInfo.find({}))
+    location = request.args["location"]
+    print(location)
+    pensions = list(colPensionInfo.find({'location': location}))
     return render_template('main.html', pensions=pensions)
 
 
