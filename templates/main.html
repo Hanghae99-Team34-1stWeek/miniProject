@@ -1,22 +1,36 @@
 {% extends "base.html" %}
 
 {% block head %}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<!-- api -->
 <script>
     $(document).ready(function () {
-        showList();
+        //showPensionList();
     });
 
-    function showList() {
-        $.ajax({
-            type: 'GET',
-            url: '/api/list?sample_give=샘플데이터',
-            data: {},
-            success: function (response) {
-                // alert(response['msg']);
-            }
-        });
-    }
+    // function showPensionList() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/main/',
+    //         data: {},
+    //         success: function (response) {
+    //             //alert(response['msg']);
+    //         }
+    //     });
+    // }
 
     function modifyList(name) {
         $.ajax({
@@ -24,7 +38,7 @@
             url: '/api/like',
             data: {sample_give: '샘플데이터'},
             success: function (response) {
-                // alert(response['msg']);
+                //alert(response['msg']);
             }
         });
     }
@@ -35,104 +49,70 @@
             url: '/api/delete',
             data: {sample_give: '샘플데이터'},
             success: function (response) {
-                // alert(response['msg']);
+                //alert(response['msg']);
             }
         });
     }
 
-    $(document).ready(function () {
-        $(".area-li").click(function () {
-            var idx = $(this).index();
-
-            $('.area-li').removeClass('all');
-            $('.all').eq(idx).addClass('on');
-
-            $('.menu-content').hide();
-            $('.menu-content').eq(idx).show();
-        })
-    });
-
 </script>
+
+<!-- 추후 디자인 및 레이아웃 수정 시 삭제할 부분 -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        padding: 0;
-        margin: 0;
+    * {
+        font-family: 'Jua', sans-serif;
     }
 
-    .area-menu-wrap {
-        width: 80%;
-        height: auto;
-        margin: 15vh auto 10vh auto;
+    .posting-box {
+        width: 500px;
+        margin-top: 20px;
     }
 
-    .area-li {
-        float: left;
-        list-style: none;
-        width: 20%;
-        height: 50px;
-        line-height: 50px;
-        text-align: center;
-        cursor: pointer;
-        margin-bottom: 10vh;
+    .wrap {
+        width: 900px;
+        margin: auto;
     }
 
-    /*.area-menu a {*/
-    /*    text-decoration: none;*/
-    /*    color: black;*/
-    /*}*/
-
-    .area-li:hover {
-        color: #636e72;
+    .container {
+        padding-left: 50px;
     }
-
-    .all {
-        font-weight: bold;
-    }
-
-    .content-box {
-        height: auto;
-    }
-
-    .menu-content {
-        display: none;
-        text-align: center;
-    }
-
-    .on {
-        display: block;
-    }
-
 </style>
+
+
+<title>MO:PEN Main</title>
 {% endblock %}
 
 {% block body %}
-<div class="area-menu-wrap">
-    <div class="area-menu">
-        <ul>
-            <li class="area-li all" tabindex="">전체</li>
-            <li class="area-li">강원</li>
-            <li class="area-li">경기</li>
-            <li class="area-li">인천</li>
-            <li class="area-li">경남</li>
-        </ul>
-    </div>
-    <div class="content-box">
-        <div id="tab-1" class="menu-content on">
-            content1
-        </div>
-        <div id="tab-2" class="menu-content on">
-            content2
-        </div>
-        <div id="tab-3" class="menu-content on">
-            content3
-        </div>
-        <div id="tab-4" class="menu-content on">
-            content4
-        </div>
-        <div id="tab-5" class="menu-content on">
-            content5
+
+<div class="wrap">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1>메인상단블록</h1>
+            <div class="">
+            </div>
         </div>
     </div>
+
+    <div class="card-columns">
+        <!-- 펜션 블록 목록-->
+        {% for pension in pensions %}
+        <div class="card" id="{{pension._id}}" style="width: 18rem">
+            <!-- <a id="favBtn" class="favBtn btn btn-primary">즐겨찾기</a> -->
+            <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
+                <img class="card-img-top pensioncard" src="{{pension.img}}" alt="pension image cap"
+                     style="cursor: pointer"/>
+            </a>
+            <div class="card-body">
+                <h5 class="card-location">{{pension.location}}</h5>
+                <h5 class="card-name">{{pension.name}}</h5>
+                평점: {{pension.score}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
-<!-- body -->
+
 {% endblock %}
