@@ -23,7 +23,7 @@ def main():
     if location == "전체":
         pensions = list(colPensionInfo.find({}))
     else:
-        pensions = list(colPensionInfo.find({'location': location}))
+        pensions = list(colPensionInfo.find({'locationCategory': location}))
 
     # print(pensions)
 
