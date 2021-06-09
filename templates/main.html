@@ -21,40 +21,12 @@
             //showPensionList();
         });
 
-        function showPensionList() {
-            $.ajax({
-                type: 'GET',
-                url: '/main/',
-                data: {},
-                success: function (response) {
-                    console.log()
-                }
-            });
+        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
         }
-
-        function modifyList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/like',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    //alert(response['msg']);
-                }
-            });
-        }
-
-        function deleteList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/delete',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    //alert(response['msg']);
-                }
-            });
-        }
-
-
 
     </script>
 
@@ -68,9 +40,9 @@
         }
 
         body {
+            background-image: url("../static/bgimage_blur.jpg");
             padding: 0;
             margin: 0;
-            background-image: url('../static/bgimage_blur.jpg');
         }
 
         .area-menu-wrap {

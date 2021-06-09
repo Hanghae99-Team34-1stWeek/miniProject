@@ -6,45 +6,49 @@
             //showList();
         });
 
-        function showList() {
-            $.ajax({
-                type: 'GET',
-                url: '/api/list?sample_give=샘플데이터',
-                data: {},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
+       function to_login(){
+          window.location.href='/login'
+      }
 
-        function modifyList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/like',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
-
-        function deleteList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/delete',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    alert(response['msg']);
-                }
-            });
-        }
+      function to_register(){
+           window.location.href='/register'
+      }
 
     </script>
     <style>
+        .index_container {
+            border: 3px solid #0B2161;
+            border-radius: 15px;
+            margin: 50px 0px;
+            padding: 50px 0px;
+
+            height: 500px;
+
+            text-align: center;
+        }
+
+        button {
+            width: 100px;
+            color: #0B2161;
+            margin: 0px 50px;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
-    <h1>index</h1>
-    <!-- body -->
+    <div class="container-fluid">
+        <div class="row md">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 index_container">
+                <h1>Welcome to MO:PEN!</h1>
+                <p>This page is for...</p>
+
+                <br><br><br><br><br><br><br><br><br><br>
+
+                <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
+                <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
 {% endblock %}
