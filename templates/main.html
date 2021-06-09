@@ -1,57 +1,126 @@
 {% extends "base.html" %}
 
 {% block head %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <!-- api -->
     <script>
         $(document).ready(function () {
-            showList();
+            //showPensionList();
         });
 
-        function showList() {
-            $.ajax({
-                type: 'GET',
-                url: '/api/list?sample_give=샘플데이터',
-                data: {},
-                success: function (response) {
-                    //alert(response['msg']);
-                }
-            });
-        }
-
-        function modifyList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/like',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    //alert(response['msg']);
-                }
-            });
-        }
-
-        function deleteList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/delete',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    //alert(response['msg']);
-                }
-            });
+        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
         }
 
     </script>
 
+    <!-- 추후 디자인 및 레이아웃 수정 시 삭제할 부분 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            font-family: 'Jua', sans-serif;
+        }
+
+        body {
+            background-image: url("../static/bgimage_blur.jpg");
+            padding: 0;
+            margin: 0;
+        }
+
+        .area-menu-wrap {
+            width: 900px;
+            margin: 15vh auto 5vh auto;
+        }
+
+        .area-menu {
+            width: 900px;
+        }
+
+        .area-ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .menu-title {
+            color: black;
+        }
+
+        .menu-title:hover {
+            text-decoration: none;
+            color: #718093;
+        }
+
+        .wrap {
+            /*
+            width: 900px;
+             */
+            margin: auto;
+        }
+
+        .container {
+            padding-left: 50px;
+        }
     </style>
 
 
-    <style>
-    </style>
-		
-
+    <title>MO:PEN Main</title>
 {% endblock %}
 
 {% block body %}
-    <h1>main</h1>
-    <!-- body -->
+
+    <div class="area-menu-wrap">
+        <div class="area-menu">
+            <ul class="area-ul">
+                <li><a class="menu-title" href="/main?location=강원">강원</a></li>
+                <li><a class="menu-title" href="/main?location=경기">경기</a></li>
+                <li><a class="menu-title" href="/main?location=경남">경남</a></li>
+                <li><a class="menu-title" href="/main?location=경북">경북</a></li>
+                <li><a class="menu-title" href="/main?location=전남">전남</a></li>
+                <li><a class="menu-title" href="/main?location=전북">전북</a></li>
+                <li><a class="menu-title" href="/main?location=제주">제주</a></li>
+                <li><a class="menu-title" href="/main?location=충남">충남</a></li>
+                <li><a class="menu-title" href="/main?location=충북">충북</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <div class="card-columns">
+            <!-- 펜션 블록 목록-->
+            {% for pension in pensions %}
+                <div class="card" id="{{ pension._id }}" style="width: 18rem;">
+                    <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
+                        <img class="card-img-top pensioncard" src="{{ pension.img }}" alt="pension image cap"
+                             style="cursor: pointer"/>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-location">{{ pension.location }}</h5>
+                        <h5 class="card-name">{{ pension.name }}</h5>
+                        평점: {{ pension.rate }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
 {% endblock %}
