@@ -1,7 +1,8 @@
 from pymongo import MongoClient
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 
 app = Flask(__name__)
+
 
 # ----- DB 연결 : 펜션 정보 -----#
 client = MongoClient('localhost', 27017)
