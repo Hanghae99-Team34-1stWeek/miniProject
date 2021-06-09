@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -19,10 +20,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script>
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
+        }
+    </script>
 
     <style>
         * {
             font-family: 'Jua', sans-serif;
+        }
+
+        body {
+            min-height: 1100px;
+
+            {#background-image: url('../static/bgimage.jpeg');#}
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         #navBar {
@@ -32,7 +52,6 @@
         #logout, #mypage {
             margin-top: auto;
             margin-bottom: auto;
-
 
             text-align: center;
         }
@@ -55,7 +74,14 @@
         }
 
         #navBar > .row {
+            /*
             background-color: #0B2161;
+             */
+
+        }
+
+        #navBorder {
+            border-bottom: 3px solid white;
         }
 
         .text-box {
@@ -82,6 +108,8 @@
             clip-path: inset(-1% -1% 50% -1%);
             border-radius: 15px;
         }
+
+
     </style>
 
     {% block head %}
@@ -91,24 +119,24 @@
 
 <body>
 <div id="navBar" class="container-fluid">
-    <div class="row md" style="">
+    <div class="row md" id="navBorder">
         <div class="col-md-3">
-            <a id="logotitle" href="../main/?location=전체">
+            <a id="logotitle" href="../main?location=전체" style="text-decoration: none;">
                 <div class="text-box" style="padding-top: 15px;">
                     <h1 id="mopen">MO:PEN</h1>
                     <h1 id="mopen">MO:PEN</h1>
                 </div>
-                </span></p>
             </a>
         </div>
         <div class="col-md-3"></div>
-        <div class="col-md-3" id="logout"><a href="" class="nav_a">Log Out</a></div>
+        <div class="col-md-3" id="logout"><a href="../login" class="nav_a" onclick="logout()">Log Out</a></div>
         <div class="col-md-3" id="mypage"><a href="../mypage" class="nav_a">My page</a></div>
     </div>
+
 
     {% block body %}
         <!-- body -->
     {% endblock %}
-</body>
+</div>
 
 </html>
