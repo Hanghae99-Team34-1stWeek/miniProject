@@ -21,37 +21,11 @@
             //showPensionList();
         });
 
-        function showPensionList() {
-            $.ajax({
-                type: 'GET',
-                url: '/main/',
-                data: {},
-                success: function (response) {
-                    console.log()
-                }
-            });
-        }
-
-        function modifyList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/like',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    //alert(response['msg']);
-                }
-            });
-        }
-
-        function deleteList(name) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/delete',
-                data: {sample_give: '샘플데이터'},
-                success: function (response) {
-                    //alert(response['msg']);
-                }
-            });
+        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
         }
 
     </script>
@@ -65,8 +39,8 @@
             font-family: 'Jua', sans-serif;
         }
 
-
         body {
+            background-image: url("../static/bgimage_blur.jpg");
             padding: 0;
             margin: 0;
         }
@@ -119,15 +93,15 @@
     <div class="area-menu-wrap">
         <div class="area-menu">
             <ul class="area-ul">
-                <li><a class="menu-title" href="/main/?locationCategory=강원">강원</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=경기">경기</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=경남">경남</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=경북">경북</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=전남">전남</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=전북">전북</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=제주">제주</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=충남">충남</a></li>
-                <li><a class="menu-title" href="/main/?locationCategory=충북">충북</a></li>
+                <li><a class="menu-title" href="/main?location=강원">강원</a></li>
+                <li><a class="menu-title" href="/main?location=경기">경기</a></li>
+                <li><a class="menu-title" href="/main?location=경남">경남</a></li>
+                <li><a class="menu-title" href="/main?location=경북">경북</a></li>
+                <li><a class="menu-title" href="/main?location=전남">전남</a></li>
+                <li><a class="menu-title" href="/main?location=전북">전북</a></li>
+                <li><a class="menu-title" href="/main?location=제주">제주</a></li>
+                <li><a class="menu-title" href="/main?location=충남">충남</a></li>
+                <li><a class="menu-title" href="/main?location=충북">충북</a></li>
             </ul>
         </div>
     </div>
@@ -138,7 +112,6 @@
             <!-- 펜션 블록 목록-->
             {% for pension in pensions %}
                 <div class="card" id="{{ pension._id }}" style="width: 18rem">
-                    <!-- <a id="favBtn" class="favBtn btn btn-primary">즐겨찾기</a> -->
                     <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
                         <img class="card-img-top pensioncard" src="{{ pension.img }}" alt="pension image cap"
                              style="cursor: pointer"/>
@@ -146,7 +119,7 @@
                     <div class="card-body">
                         <h5 class="card-location">{{ pension.location }}</h5>
                         <h5 class="card-name">{{ pension.name }}</h5>
-                        평점: {{ pension.score }}
+                        평점: {{ pension.rate }}
                     </div>
                 </div>
             {% endfor %}
