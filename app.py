@@ -7,7 +7,7 @@ app = Flask(__name__)
 client = MongoClient('localhost', 27017)
 dbMopen = client.mopen
 colPensionInfo = dbMopen.pensionInfo
-
+colUser = dbMopen.mopenUser
 
 # ----- route -----#
 @app.route('/')
