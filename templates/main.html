@@ -69,13 +69,10 @@
             color: #718093;
         }
 
-        .posting-box {
-            width: 500px;
-            margin-top: 20px;
-        }
-
         .wrap {
+            /*
             width: 900px;
+             */
             margin: auto;
         }
 
@@ -106,12 +103,11 @@
         </div>
     </div>
 
-
     <div class="wrap">
         <div class="card-columns">
             <!-- 펜션 블록 목록-->
             {% for pension in pensions %}
-                <div class="card" id="{{ pension._id }}" style="width: 18rem">
+                <div class="card" id="{{ pension._id }}" style="width: 18rem;">
                     <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
                         <img class="card-img-top pensioncard" src="{{ pension.img }}" alt="pension image cap"
                              style="cursor: pointer"/>
