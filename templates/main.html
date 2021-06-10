@@ -1,19 +1,6 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
 
     <!-- api -->
     <script>
@@ -31,16 +18,14 @@
             $('#location_choosed').removeAttr('id');
             document.getElementsByClassName("menu-title")[index].setAttribute("id", "location_choosed")
 
-            $('.sort_select').val(sort)
+            if (sort == undefined) {
+                $('.sort_select').val("1")
+            } else {
+                $('.sort_select').val(sort)
+            }
+
         });
 
-
-        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
-        function logout() {
-            $.removeCookie('mytoken');
-            alert('로그아웃!')
-            window.location.href = '/login'
-        }
 
         function a_clicked(location) {
             let locations = ["전체", "강원", "경기", "경남", "경북", "전남", "전북", "제주", "충남", "충북"]
@@ -56,8 +41,6 @@
             let location = $('#location_choosed').text();
             let sorting = $('.sort_select').val()
 
-
-            console.log = ("/main?location=" + location + "&sort=" + sorting);
             window.location.href = "main?location=" + location + "&sort=" + sorting;
         }
 
@@ -89,9 +72,6 @@
 
         }
 
-        .sort_select {
-        }
-
         #menubar {
             margin-top: 100px;
             margin-bottom: 30px;
@@ -109,10 +89,6 @@
         .pension {
             margin-bottom: 20px;
             text-align: center;
-        }
-
-        .row {
-            margin: 0px 40px;
         }
 
         .card {
@@ -135,26 +111,19 @@
             text-decoration: none;
         }
 
-
-        .wrap {
-            /*
-            width: 900px;
-             */
-            margin: auto;
-        }
-
-        .container {
-            padding-left: 50px;
-        }
-
         #location_choosed {
             background-color: #0B2161;
             padding: 5px;
             border-radius: 5px;
             color: white;
         }
+
         .col-md-1 {
             text-align: center;
+        }
+
+        #pensions {
+
         }
     </style>
 
@@ -192,11 +161,11 @@
     </div>
 
 
-    <div class="row">
+    <div class="row" id="pensions">
         {% for pension in pensions %}
             <div class="col-6 col-md-4 pension">
                 <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
-                    <div class="card" id="{{ pension._id }}" ">
+                    <div class="card" id="{{ pension._id }}">
                         <img class="card-img-top pensioncard" src="{{ pension.img }}" alt="pension image cap"
                              style="cursor: pointer"/>
                         <div class="card-body">

@@ -8,8 +8,20 @@
     <script>
         $(document).ready(function () {
             $('#logout').text("")
-           $('#mypage').text("")
+            $('#mypage').text("")
+
+            $("#userpw").keyup(function(e){if(e.keyCode == 13)  login(); });
+
         });
+
+        document.getElementById('loginbtn').addEventListener("keyup", function (e) {
+            if (e.keyCode === 13) {
+                 e.preventDefault();
+                 document.getElementById('loginbtn').click();
+
+                return false;
+            }
+        })
 
         {% if msg %}
             alert("{{ msg }}")
@@ -107,7 +119,7 @@
                 <div class="col-md-2"></div>
             </div>
 
-            <button class="btn btn-primary" onclick="login()" type="button">Login</button>
+            <button class="btn btn-primary" id="loginbtn" onclick="login()" type="button">Login</button>
             <button class="btn btn-primary" onclick="gotoregister()" type="button">Register</button>
 
 

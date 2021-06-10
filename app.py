@@ -1,3 +1,5 @@
+import json
+
 from pymongo import MongoClient
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 
@@ -24,12 +26,22 @@ client = MongoClient('mongodb://test:test@3.34.124.31', 27017)
 dbMopen = client.mopen
 colPensionInfo = dbMopen.pensionInfo
 colUser = dbMopen.mopenUser
+colLikes = dbMopen.pensionLikes
 
 
 # ----- route ----- #
 @app.route('/')
 def home():
-	return render_template('index.html')
+	token_receive = request.cookies.get('mytoken')
+	try:
+		token_receive = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+		token = True
+	except:
+		token = False
+
+	print("token_receive", token_receive, ", token:", token)
+
+	return render_template('index.html', isloggedin=token)
 
 
 # -- Main: 펜션 목록 페이지 --#
@@ -47,8 +59,6 @@ def main():
 	base = "name"
 	asordes = -1
 
-	print(location, type(sorting))
-
 	if sorting == "1":
 		base = "name"
 		asordes = -1
@@ -65,8 +75,6 @@ def main():
 		base = "rate"
 		asordes = 1
 
-	print(base, asordes)
-
 	try:
 		payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 		user_info = colUser.find_one({"id": payload['id']})
@@ -75,8 +83,6 @@ def main():
 			pensions = list(colPensionInfo.find({}).sort(base, asordes))
 		else:
 			pensions = list(colPensionInfo.find({'locationCategory': location}).sort(base, asordes))
-
-		print("go to main")
 
 		return render_template("main.html", pensions=pensions, nickname=user_info["id"])
 	except jwt.ExpiredSignatureError:
@@ -93,9 +99,96 @@ def main():
 def pension_detail(pension_id):
 	pension = colPensionInfo.find_one({'_id': pension_id})
 	# id 값으로 찾은 해당 펜션 정보(name, price, ...) 전부 전달
-	return render_template("pension_detail.html", pension=pension)
+
+	# 현재 로그인 된 사람의 id로 찾아야 함
+	token_receive = request.cookies.get('mytoken')
+
+	try:
+		payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+		user_info = colUser.find_one({"id": payload['id']})
+		print("user:", user_info['id'])
+
+		likes = list(colLikes.find({'id': user_info['id']}, {'_id': False}))
+
+		pensions = likes[0]['pensionId']
+
+		liked = False
+
+		if pension['_id'] in pensions:
+			print("already liked!")
+			liked = True
+		else:
+			print("not liked yet!")
+			liked = False
+
+		print(pension['_id'], pensions)
+
+		return render_template("pension_detail.html", pension=pension, liked=json.dumps(liked))
+	except jwt.ExpiredSignatureError:
+		return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+
+	except jwt.exceptions.DecodeError:
+		return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
+##### 즐겨찾기 추가 #####
+# 펜션 상세페이지 : 즐겨찾기 추가
+@app.route('/like', methods=['POST'])
+def like():
+	if request.method == 'POST':
+		try:
+			token_receive = request.cookies.get('mytoken')
+			payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+			currentUserInfo = colLikes.find_one({'id': payload['id']})
+			pensionId_receive = request.form['pensionId']
+
+			pensionId_receive = pensionId_receive.split(' ')[0]
+
+			colLikes.update_one({'id': currentUserInfo['id']}, {'$addToSet': {'pensionId': pensionId_receive}}, True)
+
+			pensionId_receive = pensionId_receive.split(' ')[0]
+			print(pensionId_receive, "saved")
+			return jsonify({"result": "success", 'msg': '펜션이 즐겨찾기에 추가되었습니다.'})
+
+		except jwt.ExpiredSignatureError:
+			# 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
+			return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+		except jwt.exceptions.DecodeError:
+			return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+	return jsonify({'msg': '추가 실패'})
+
+
+# 펜션 상세페이지 : 즐겨찾기 삭제
+@app.route('/unlike', methods=['POST'])
+def unlike():
+	if request.method == 'POST':
+		try:
+			token_receive = request.cookies.get('mytoken')
+			payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+			currentUserInfo = colLikes.find_one({'id': payload['id']})
+			pensionId_receive = request.form['pensionId'].split(" ")[0]
+
+			print("will delete", pensionId_receive)
+
+			colLikes.update_one(
+				{'id': currentUserInfo['id']},
+				{'$pull': {'pensionId': pensionId_receive}}, bypass_document_validation=True)
+
+			print(pensionId_receive)
+			print(pensionId_receive, "deleted")
+
+			return jsonify({"result": "success", 'msg': '펜션이 즐겨찾기에서 삭제되었습니다.'})
+
+		except jwt.ExpiredSignatureError:
+			# 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
+			return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+		except jwt.exceptions.DecodeError:
+			return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+	return jsonify({'msg': '삭제 실패'})
+
+"""
 @app.route('/mypage')
 def mypage():
 	token_receive = request.cookies.get('mytoken')
@@ -110,8 +203,30 @@ def mypage():
 
 	except jwt.exceptions.DecodeError:
 		return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+"""
 
+@app.route('/mypage')
+def mypage():
+	token_receive = request.cookies.get('mytoken')
 
+	try:
+		payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+		currentUserInfo = colLikes.find_one({'id': payload['id']})
+		pensionIdList = currentUserInfo['pensionId']
+
+		if pensionIdList:
+			pensions = []
+			for pensionId in pensionIdList:
+				pensions.append(colPensionInfo.find_one({'_id': pensionId}))
+
+			return render_template('mypage.html', pensions=pensions, nickname=currentUserInfo["id"])
+		else:
+			return render_template('mypage_empty.html', nickname=currentUserInfo["id"])
+
+	except jwt.ExpiredSignatureError:
+		return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+	except jwt.exceptions.DecodeError:
+		return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
 @app.route('/register')
@@ -123,6 +238,11 @@ def register():
 def login():
 	msg = request.args.get("msg")
 	return render_template('login.html', msg=msg)
+
+
+@app.route('/logout')
+def logout():
+	return redirect(url_for("login"))
 
 
 #################################
@@ -140,7 +260,7 @@ def api_register():
 
 	doc = {'id': id_receive, 'pw': pw_hash}
 	colUser.insert_one(doc)
-
+	colLikes.insert_one({'id': id_receive, 'pensionId': []})
 
 	return jsonify({'result': 'success'})
 

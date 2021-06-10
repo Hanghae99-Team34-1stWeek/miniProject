@@ -77,25 +77,9 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="row" id="pensions">
-				<h1 style="text-align: center; margin-top: 50px; color: #0b2161">
-        {{ nickname }}님의 즐겨찾기
-				</h1>
-        {% for pension in pensions %}
-            <div class="col-6 col-md-4 pension">
-                <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
-                    <div class="card" id="{{ pension._id }}">
-                        <img class="card-img-top pensioncard" src="{{ pension.img }}" alt="pension image cap" style="cursor: pointer"/>
-                        <div class="card-body">
-                            <h5 class="card-location">{{ pension.location }}</h5>
-                            <h5 class="card-name">{{ pension.name }}</h5>
-                            <span>평점: {{ pension.rate }}</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        {% endfor %}
+      <h1 style="text-align: center; margin-top: 50px; color: #0b2161">
+        {{ nickname }}님, 마음에 드는 펜션을 즐겨찾기에 추가해 보세요!
+      </h1>
     </div>
-
 {% endblock %}

@@ -2,22 +2,22 @@
 
 {% block head %}
     <script>
-       $(document).ready(function () {
-           $('#logout').text("")
-           $('#mypage').text("")
+        $(document).ready(function () {
+            $('#logout').text("")
+            $('#mypage').text("")
         });
 
-       function to_login(){
-          window.location.href='/login'
-      }
+        function to_login() {
+            window.location.href = '/login'
+        }
 
-      function to_register(){
-           window.location.href='/register'
-      }
+        function to_register() {
+            window.location.href = '/register'
+        }
 
-      function to_main() {
-           window.location.href='../main?location=전체'
-      }
+        function to_main() {
+            window.location.href = '../main?location=전체'
+        }
 
     </script>
     <style>
@@ -30,6 +30,8 @@
             height: 500px;
 
             text-align: center;
+
+            background-color: white;
         }
 
         button {
@@ -48,11 +50,25 @@
                 <h1>Welcome to MO:PEN!</h1>
                 <p>This page is for...</p>
 
-                <br><br><br><br><br><br><br><br><br><br>
+                <br><br><br>
+                <div>
+                    <span style="font-size: 50px;">→</span> &ensp;
+                    <audio controls autoplay style=" width: 50px;" id="player">
+                        <source src="../static/bgmusic.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    &ensp;<span style="font-size: 50px;">←</span>
+                </div>
+                <br><br><br>
 
-                <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
-                <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
-                <button class="btn btn-primary" onclick="to_main()" type="button">To Main</button>
+                {% if isloggedin == True %}
+                    <button class="btn btn-primary" onclick="to_main()" type="button">To Main</button>
+                {% else %}
+                    <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
+                    <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
+                {% endif %}
+
+
             </div>
             <div class="col-md-2"></div>
         </div>
