@@ -18,14 +18,51 @@
     <!-- api -->
     <script>
         $(document).ready(function () {
-            //showPensionList();
+            let address = window.location.href;
+
+            let sort = address.split("sort=")[1];
+            let location = address.split("location=")[1];
+            location = location.split("&")[0]
+            location = decodeURIComponent(location);
+
+            let locations = ["전체", "강원", "경기", "경남", "경북", "전남", "전북", "제주", "충남", "충북"]
+            let index = locations.indexOf(location)
+
+            $('#location_choosed').removeAttr('id');
+            document.getElementsByClassName("menu-title")[index].setAttribute("id", "location_choosed")
+
+            $('.sort_select').val(sort)
         });
+
 
         // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
         function logout() {
             $.removeCookie('mytoken');
             alert('로그아웃!')
             window.location.href = '/login'
+        }
+
+        function a_clicked(location) {
+            let locations = ["전체", "강원", "경기", "경남", "경북", "전남", "전북", "제주", "충남", "충북"]
+            let index = locations.indexOf(location)
+
+            $('#location_choosed').removeAttr('id');
+            document.getElementsByClassName("menu-title")[index].setAttribute("id", "location_choosed")
+
+            lets_sort()
+        }
+
+        function lets_sort() {
+            let location = $('#location_choosed').text();
+            let sorting = $('.sort_select').val()
+
+
+            console.log = ("/main?location=" + location + "&sort=" + sorting);
+            window.location.href = "main?location=" + location + "&sort=" + sorting;
+        }
+
+        function changed() {
+            alert($('.sort_select').val())
         }
 
     </script>
@@ -45,19 +82,19 @@
             margin: 0;
         }
 
-        .area-menu-wrap {
-            width: 900px;
-            margin: 15vh auto 5vh auto;
+        .select {
+            margin-top: 30px;
+            position: absolute;
+            right: 80px;
+
         }
 
-        .area-menu {
-            width: 900px;
+        .sort_select {
         }
 
-        .area-ul {
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
+        #menubar {
+            margin-top: 100px;
+            margin-bottom: 30px;
         }
 
         .menu-title {
@@ -69,6 +106,36 @@
             color: #718093;
         }
 
+        .pension {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .row {
+            margin: 0px 40px;
+        }
+
+        .card {
+            border: 2px solid #0B2161;
+            border-radius: 15px;
+        }
+
+        .card:hover {
+            background-color: #0B2161;
+            color: white;
+        }
+
+        .card-img-top {
+            margin-top: 0px;
+            width: 100%;
+            border-radius: 13px;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+
         .wrap {
             /*
             width: 900px;
@@ -79,6 +146,16 @@
         .container {
             padding-left: 50px;
         }
+
+        #location_choosed {
+            background-color: #0B2161;
+            padding: 5px;
+            border-radius: 5px;
+            color: white;
+        }
+        .col-md-1 {
+            text-align: center;
+        }
     </style>
 
 
@@ -87,40 +164,51 @@
 
 {% block body %}
 
-    <div class="area-menu-wrap">
-        <div class="area-menu">
-            <ul class="area-ul">
-                <li><a class="menu-title" href="/main?location=강원">강원</a></li>
-                <li><a class="menu-title" href="/main?location=경기">경기</a></li>
-                <li><a class="menu-title" href="/main?location=경남">경남</a></li>
-                <li><a class="menu-title" href="/main?location=경북">경북</a></li>
-                <li><a class="menu-title" href="/main?location=전남">전남</a></li>
-                <li><a class="menu-title" href="/main?location=전북">전북</a></li>
-                <li><a class="menu-title" href="/main?location=제주">제주</a></li>
-                <li><a class="menu-title" href="/main?location=충남">충남</a></li>
-                <li><a class="menu-title" href="/main?location=충북">충북</a></li>
-            </ul>
-        </div>
+    <div class="select">
+        <select class="form-select form-select-lg mb-3 sort_select" aria-label=".form-select-lg example"
+                onchange="lets_sort()">
+            <option value="1" selected>모펜추천순</option>
+            <option value="2">가격높은순</option>
+            <option value="3">가격낮은순</option>
+            <option value="4">평점높은순</option>
+            <option value="5">평점낮은순</option>
+        </select>
     </div>
 
-    <div class="wrap">
-        <div class="card-columns">
-            <!-- 펜션 블록 목록-->
-            {% for pension in pensions %}
-                <div class="card" id="{{ pension._id }}" style="width: 18rem;">
-                    <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
+    <div class="row md" id="menubar">
+        <div class="col-md-1"></div>
+        <div class="col-md-1"><a class="menu-title" id="location_choosed" onclick="a_clicked(this.text)">전체</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">강원</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">경기</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">경남</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">경북</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">전남</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">전북</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">제주</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">충남</a></div>
+        <div class="col-md-1"><a class="menu-title" onclick="a_clicked(this.text)">충북</a></div>
+        <div class="col-md-1"></div>
+
+    </div>
+
+
+    <div class="row">
+        {% for pension in pensions %}
+            <div class="col-6 col-md-4 pension">
+                <a href="{{ url_for('pension_detail', pension_id=pension._id) }}">
+                    <div class="card" id="{{ pension._id }}" ">
                         <img class="card-img-top pensioncard" src="{{ pension.img }}" alt="pension image cap"
                              style="cursor: pointer"/>
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-location">{{ pension.location }}</h5>
-                        <h5 class="card-name">{{ pension.name }}</h5>
-                        평점: {{ pension.rate }}
+                        <div class="card-body">
+                            <h5 class="card-location">{{ pension.location }}</h5>
+                            <h5 class="card-name">{{ pension.name }}</h5>
+                            <span>평점: {{ pension.rate }}</span>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-
+                </a>
+            </div>
+        {% endfor %}
     </div>
+
 
 {% endblock %}

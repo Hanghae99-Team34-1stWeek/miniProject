@@ -33,19 +33,50 @@ def home():
 
 
 # -- Main: 펜션 목록 페이지 --#
-@app.route('/main/', methods=['GET'])
+@app.route('/main', methods=['GET'])
 def main():
 	token_receive = request.cookies.get('mytoken')
 	location = request.args["location"]
+	sorting = "1"
+
+	try:
+		sorting = request.args["sort"]
+	except:
+		sorting = "1"
+
+	base = "name"
+	asordes = -1
+
+	print(location, type(sorting))
+
+	if sorting == "1":
+		base = "name"
+		asordes = -1
+	elif sorting == "2":
+		base = "price"
+		asordes = -1
+	elif sorting == "3":
+		base = "price"
+		asordes = 1
+	elif sorting == "4":
+		base = "rate"
+		asordes = -1
+	elif sorting == "5":
+		base = "rate"
+		asordes = 1
+
+	print(base, asordes)
 
 	try:
 		payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 		user_info = colUser.find_one({"id": payload['id']})
 
 		if location == "전체":
-			pensions = list(colPensionInfo.find({}))
+			pensions = list(colPensionInfo.find({}).sort(base, asordes))
 		else:
-			pensions = list(colPensionInfo.find({'locationCategory': location}))
+			pensions = list(colPensionInfo.find({'locationCategory': location}).sort(base, asordes))
+
+		print("go to main")
 
 		return render_template("main.html", pensions=pensions, nickname=user_info["id"])
 	except jwt.ExpiredSignatureError:
