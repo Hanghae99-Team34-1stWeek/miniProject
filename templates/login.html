@@ -7,7 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script>
         $(document).ready(function () {
-            //showList();
+            $('#logout').text("")
+           $('#mypage').text("")
         });
 
         {% if msg %}
@@ -91,7 +92,8 @@
             <div class="row md" id="idform">
                 <div class="col-md-2"></div>
                 <div class="col-md-4"><label for="" id="id_label ">ID: </label></div>
-                <div class="col-md-4" style="text-align: center;"><input type="text" id="userid" placeholder="Input ID">
+                <div class="col-md-4" style="text-align: center;">
+                    <input type="text" id="userid" placeholder="Input ID">
                 </div>
                 <div class="col-md-2"></div>
             </div>
@@ -99,8 +101,8 @@
             <div class="row md" id="pwform">
                 <div class="col-md-2"></div>
                 <div class="col-md-4"><label for="" id="pw_label">PASSWORD: </label></div>
-                <div class="col-md-4" style="text-align: center;"><input id="userpw" type="password"
-                                                                         placeholder="Input PW">
+                <div class="col-md-4" style="text-align: center;">
+                    <input id="userpw" type="password" placeholder="Input PW">
                 </div>
                 <div class="col-md-2"></div>
             </div>

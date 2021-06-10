@@ -3,7 +3,8 @@
 {% block head %}
     <script>
        $(document).ready(function () {
-            //showList();
+           $('#logout').text("")
+           $('#mypage').text("")
         });
 
        function to_login(){
@@ -12,6 +13,10 @@
 
       function to_register(){
            window.location.href='/register'
+      }
+
+      function to_main() {
+           window.location.href='../main?location=전체'
       }
 
     </script>
@@ -47,6 +52,7 @@
 
                 <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
                 <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
+                <button class="btn btn-primary" onclick="to_main()" type="button">To Main</button>
             </div>
             <div class="col-md-2"></div>
         </div>
