@@ -7,8 +7,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script>
         $(document).ready(function () {
-            //showList();
+            $('#logout').text("")
+            $('#mypage').text("")
+
+            $("#userpw").keyup(function(e){if(e.keyCode == 13)  login(); });
+
         });
+
+        document.getElementById('loginbtn').addEventListener("keyup", function (e) {
+            if (e.keyCode === 13) {
+                 e.preventDefault();
+                 document.getElementById('loginbtn').click();
+
+                return false;
+            }
+        })
 
         {% if msg %}
             alert("{{ msg }}")
@@ -30,7 +43,7 @@
                         $.cookie('mytoken', response['token']);
 
                         alert('로그인 완료!')
-                        window.location.href = '/main/?location=전체'
+                        window.location.href = '/main?location=전체'
                     } else {
                         // 로그인이 안되면 에러메시지를 띄웁니다.
                         alert(response['msg'])
@@ -53,10 +66,15 @@
             border-radius: 15px;
             width: 80%;
             height: 600px;
-
+						background-color: rgba( 255, 255, 255, 0.5 );
+						box-shadow: 5px 10px 15px 10px rgba(0,0,0, 0.1);
             margin-top: 30px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        #logintitle {
+            font-size: 64px;
         }
 
         form {
@@ -79,19 +97,22 @@
             width: 100%;
         }
 
+
+
     </style>
 {% endblock %}
 
 {% block body %}
     <!-- body -->
     <div class="container" id="register">
-        <h1 style="text-align: center; color: #0B2161; margin: 50px 0px;">Login</h1>
+        <h1 style="text-align: center; color: #0B2161; margin: 50px 0px;font-size: 64px;">Login</h1>
 
         <form action="">
             <div class="row md" id="idform">
                 <div class="col-md-2"></div>
                 <div class="col-md-4"><label for="" id="id_label ">ID: </label></div>
-                <div class="col-md-4" style="text-align: center;"><input type="text" id="userid" placeholder="Input ID">
+                <div class="col-md-4" style="text-align: center;">
+                    <input type="text" id="userid" placeholder="Input ID">
                 </div>
                 <div class="col-md-2"></div>
             </div>
@@ -99,13 +120,13 @@
             <div class="row md" id="pwform">
                 <div class="col-md-2"></div>
                 <div class="col-md-4"><label for="" id="pw_label">PASSWORD: </label></div>
-                <div class="col-md-4" style="text-align: center;"><input id="userpw" type="password"
-                                                                         placeholder="Input PW">
+                <div class="col-md-4" style="text-align: center;">
+                    <input id="userpw" type="password" placeholder="Input PW">
                 </div>
                 <div class="col-md-2"></div>
             </div>
 
-            <button class="btn btn-primary" onclick="login()" type="button">Login</button>
+            <button class="btn btn-primary" id="loginbtn" onclick="login()" type="button">Login</button>
             <button class="btn btn-primary" onclick="gotoregister()" type="button">Register</button>
 
 

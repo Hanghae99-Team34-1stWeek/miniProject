@@ -7,27 +7,94 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script>
         $(document).ready(function () {
-            //showList();
+            $('#logout').text("")
+           $('#mypage').text("")
         });
 
         function register() {
+            let username = $("#userid").val()
+            let password = $("#userpw").val()
+
+            console.log(username, password)
+
+
+            if ($("#help-id").hasClass("is-danger")) {
+                alert("아이디를 다시 확인해주세요.")
+                return;
+            } else if (!$("#help-id").hasClass("is-success")) {
+                alert("아이디 중복확인을 해주세요.")
+                return;
+            }
+
+            if (password == "") {
+                $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-password").focus()
+                return;
+            } else if (!is_password(password)) {
+                $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
+                $("#input-password").focus()
+                return
+            } else {
+                $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
+            }
+
             $.ajax({
                 type: "POST",
                 url: "/api/register",
                 data: {
-                    id_give: $('#userid').val(),
-                    pw_give: $('#userpw').val(),
-
+                    id_give: username,
+                    pw_give: password
                 },
                 success: function (response) {
-                    if (response['result'] == 'success') {
-                        alert('회원가입이 완료되었습니다.')
-                        window.location.href = '/login'
-                    } else {
-                        alert(response['msg'])
-                    }
+                    alert("회원가입을 축하드립니다!")
+                    window.location.replace("/login")
                 }
-            })
+            });
+        }
+
+        function is_nickname(asValue) {
+            var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+            return regExp.test(asValue);
+        }
+
+        function is_password(asValue) {
+            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+            return regExp.test(asValue);
+        }
+
+        function check_dup() {
+            let username = $("#userid").val()
+            console.log(username)
+            if (username == "") {
+                $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-username").focus()
+                return;
+            }
+            if (!is_nickname(username)) {
+                $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
+                $("#input-username").focus()
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/sign_up/check_dup",
+                data: {
+                    username_give: username
+                },
+                success: function (response) {
+
+                    if (response["exists"]) {
+                        $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
+                        $("#userid").focus()
+                    } else {
+                        $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
+                    }
+                    $("#help-id").removeClass("is-loading")
+
+
+                }
+            });
         }
 
     </script>
@@ -45,7 +112,8 @@
             border-radius: 15px;
             width: 80%;
             height: 700px;
-
+						background-color: rgba( 255, 255, 255, 0.5 );
+						box-shadow: 5px 10px 15px 10px rgba(0,0,0, 0.1);
             margin-top: 30px;
             margin-left: auto;
             margin-right: auto;
@@ -77,13 +145,16 @@
 {% block body %}
     <!-- body -->
     <div class="container" id="register">
-        <h1 style="text-align: center; color: #0B2161; margin: 50px 0px;">REGISTER</h1>
+        <h1 style="text-align: center; color: #0B2161; margin: 50px 0px; font-size: 64px;">REGISTER</h1>
 
         <form action="">
             <div class="row md" id="idform">
                 <div class="col-md-2"></div>
                 <div class="col-md-4"><label for="" id="id_label">ID: </label></div>
-                <div class="col-md-4" style="text-align: center;"><input id="userid" type="text" placeholder="Input ID">
+                <div class="col-md-4" style="text-align: center;">
+                    <input id="userid" type="text" placeholder="Input ID">
+                    <button type="button" onclick="check_dup()" class="btn btn-primary">ID 중복확인</button>
+                    <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
                 </div>
                 <div class="col-md-2"></div>
             </div>
@@ -91,8 +162,9 @@
             <div class="row md" id="pwform">
                 <div class="col-md-2"></div>
                 <div class="col-md-4"><label for="" id="pw_label">PASSWORD: </label></div>
-                <div class="col-md-4" style="text-align: center;"><input id="userpw" type="password"
-                                                                         placeholder="Input PW">
+                <div class="col-md-4" style="text-align: center;">
+                    <input id="userpw" type="password" placeholder="Input PW">
+                    <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용 가능합니다.</p>
                 </div>
                 <div class="col-md-2"></div>
             </div>

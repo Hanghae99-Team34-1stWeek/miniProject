@@ -2,17 +2,22 @@
 
 {% block head %}
     <script>
-       $(document).ready(function () {
-            //showList();
+        $(document).ready(function () {
+            $('#logout').text("")
+            $('#mypage').text("")
         });
 
-       function to_login(){
-          window.location.href='/login'
-      }
+        function to_login() {
+            window.location.href = '/login'
+        }
 
-      function to_register(){
-           window.location.href='/register'
-      }
+        function to_register() {
+            window.location.href = '/register'
+        }
+
+        function to_main() {
+            window.location.href = '../main?location=전체'
+        }
 
     </script>
     <style>
@@ -20,11 +25,12 @@
             border: 3px solid #0B2161;
             border-radius: 15px;
             margin: 50px 0px;
-            padding: 50px 0px;
-
-            height: 500px;
-
+            padding: 50px 10px;
+						background-color: rgba( 255, 255, 255, 0.5 );
+						box-shadow: 5px 10px 15px 10px rgba(0,0,0, 0.1);
+            height: auto;
             text-align: center;
+            background-color: white;
         }
 
         button {
@@ -39,14 +45,33 @@
     <div class="container-fluid">
         <div class="row md">
             <div class="col-md-2"></div>
-            <div class="col-md-8 index_container">
-                <h1>Welcome to MO:PEN!</h1>
-                <p>This page is for...</p>
+            <div class="col-md-8 index_container" style="color: #0B2161;">
+                <h1 style="background-color: #0b2161; color: white;"">Welcome to MO:PEN!</h1>
 
-                <br><br><br><br><br><br><br><br><br><br>
+                <br>
 
-                <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
-                <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
+                <div id="introduce" style="text-align: center;">
+                    34조가 당당히 소개합니다!<br>
+                    우리 모두의 펜션 MO:PEN, 전국의 펜션 정보들을 지역별로 찾아보세요!<br><br>
+                    <strong style="width: 100%; font-size: 32px; background-color: #0b2161; color: white;">모두의 펜션</strong>
+                    <br><br>
+                    <span style="color: #047f9f;">곽신영</span>: 많이 헤매고 많이 배웠습니다! 좋은 분들과 즐겁게 코딩해서 재밌었어요- <span style="color: #047f9f;">항해 완주</span>까지 화이팅!<br>
+                    <span style="color: #47C83E;">오인웅</span>: 개발자가 되기위한 항해99 멋진 동료와 함께 <span style="color: #47C83E;">승선 완료!!</span><br>
+                    <span style="color: #55efc4;">이선민</span>: 좋은 분들 만나서 너무 좋았고 많이 부족해서 도와드리지 못한 점이 너무 많아서 죄송스럽네요<br>더 발전해서 언젠가 다시 만나면 도움이 많이 되도록 하겠습니다!! <span style="color: #55efc4;">너무 좋은 경험</span>이었습니다! <br>
+                    <span style="color: #4374D9;">이정원</span>: 첫 프로젝트를 여러분과 함께해서 영광이에요. 사회에서 꼭 <span style="color: #4374D9;">멋진 개발자</span>가 되어서 만나요!<br>
+
+                </div>
+
+                <br><br><br>
+
+                {% if isloggedin == True %}
+                    <button class="btn btn-primary" onclick="to_main()" type="button">To Main</button>
+                {% else %}
+                    <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
+                    <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
+                {% endif %}
+
+
             </div>
             <div class="col-md-2"></div>
         </div>

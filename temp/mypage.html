@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script>
+       $(document).ready(function () {
+
+        });
+
+    </script>
+    <style>
+        #hello {
+            margin: 20px 0px;
+            text-align: center;
+            color: #0B2161;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1 id="hello">{{ nickname }} 님의 마이 페이지</h1>
+
+
+{% endblock %}
