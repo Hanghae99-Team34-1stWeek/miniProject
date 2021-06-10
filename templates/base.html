@@ -13,6 +13,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
@@ -23,12 +29,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
+    <meta property="og:title" content="MO:PEN">
+    <meta property="og:description" content="모두가 애용하는 모두의 펜션">
+    <meta property="og:image" content = "{{ url_for('static', filename='ogimg.png') }}" />
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favimg.png') }}"/>
+
     <script>
-        function logout() {
-            $.removeCookie('mytoken');
-            alert('로그아웃!')
-            window.location.href = '/login'
-        }
+        $(document).ready(function() {
+            $('#logout').click(function() {
+                $.removeCookie('mytoken');
+
+                alert('로그아웃!')
+
+                window.location.href = '../login';
+            })
+        });
+
     </script>
 
     <style>
@@ -45,10 +62,6 @@
             background-size: cover;
         }
 
-        #navBar {
-
-        }
-
         #logout, #mypage {
             margin-top: auto;
             margin-bottom: auto;
@@ -62,6 +75,14 @@
             font-size: 32px;
         }
 
+        a{
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
         #logotitle:hover {
             text-decoration: none;
             text-shadow: 2px 2px #0080FF;
@@ -70,18 +91,11 @@
         .nav_a:hover {
             color: white;
             text-decoration: none;
-            text-shadow: 5px 5px #0080FF;
-        }
-
-        #navBar > .row {
-            /*
-            background-color: #0B2161;
-             */
-
+            text-shadow: 2px 2px #0080FF;
         }
 
         #navBorder {
-            border-bottom: 3px solid white;
+            border-bottom: 0px solid white;
         }
 
         .text-box {
@@ -92,7 +106,7 @@
         }
 
         #mopen {
-            font-size: 5vw;
+            font-size: 3.5vw;
             font-weight: 900;
             background-color: #0B2161;
             color: #fff;
@@ -118,6 +132,7 @@
 </head>
 
 <body>
+<embed src="../static/bgmusic.mp3" loop="true" autostart="true" width="2" height="0">
 <div id="navBar" class="container-fluid">
     <div class="row md" id="navBorder">
         <div class="col-md-3">
@@ -129,8 +144,14 @@
             </a>
         </div>
         <div class="col-md-3"></div>
-        <div class="col-md-3" id="logout"><a href="../login" class="nav_a" onclick="logout()">Log Out</a></div>
-        <div class="col-md-3" id="mypage"><a href="../mypage" class="nav_a">My page</a></div>
+				<div class="col-md-1"></div>
+				<div class="col-md-1"></div>
+        <div class="col-md-1" id="mypage"><a href="../mypage" class="nav_a">MY PAGE</a></div>
+				<div class="col-md-1"></div>
+        <div class="col-md-1" id="logout"><a class="nav_a">LOG OUT</a></div>
+				<div class="col-md-1"></div>
+
+
     </div>
 
 

@@ -2,17 +2,22 @@
 
 {% block head %}
     <script>
-       $(document).ready(function () {
-            //showList();
+        $(document).ready(function () {
+            $('#logout').text("")
+            $('#mypage').text("")
         });
 
-       function to_login(){
-          window.location.href='/login'
-      }
+        function to_login() {
+            window.location.href = '/login'
+        }
 
-      function to_register(){
-           window.location.href='/register'
-      }
+        function to_register() {
+            window.location.href = '/register'
+        }
+
+        function to_main() {
+            window.location.href = '../main?location=전체'
+        }
 
     </script>
     <style>
@@ -21,10 +26,11 @@
             border-radius: 15px;
             margin: 50px 0px;
             padding: 50px 0px;
-
+						background-color: rgba( 255, 255, 255, 0.5 );
+						box-shadow: 5px 10px 15px 10px rgba(0,0,0, 0.1);
             height: 500px;
-
             text-align: center;
+            background-color: white;
         }
 
         button {
@@ -45,8 +51,14 @@
 
                 <br><br><br><br><br><br><br><br><br><br>
 
-                <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
-                <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
+                {% if isloggedin == True %}
+                    <button class="btn btn-primary" onclick="to_main()" type="button">To Main</button>
+                {% else %}
+                    <button class="btn btn-primary" onclick="to_login()" type="button">Login</button>
+                    <button class="btn btn-primary" onclick="to_register()" type="button">Register</button>
+                {% endif %}
+
+
             </div>
             <div class="col-md-2"></div>
         </div>
