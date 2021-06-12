@@ -3,21 +3,12 @@
 [MO:PEN_기획서](https://www.notion.so/MO-PEN_-6c78bdd9190c4319ad390d301f2e69a9)
 
 ## 1. 웹사이트 링크
-
----
-
 [MO:PEN](http://mo-pen.shop)
 
 ## 2. 제목
-
----
-
 ### **MO:PEN**
 
 ## 3. 프로젝트 설명
-
----
-
 ### **개요**
 
 우리 모두의 펜션 **MO:PEN,** 전국의 펜션 정보들을 지역별로 찾아보세요! 
@@ -61,17 +52,9 @@
      2. token 기반이기 때문에 secret key를 통해 token을 hash 하여 암호화하기 때문에 secret key는 최대 한 시간에서 몇 분마다 새로 바꾸도록 코딩하는 게 좋습니다. **token의 보안에 대해서 생각을 해야 합니다.**
 
 ## 4. 데모영상 유튜브 링크
-
----
-
 [펜션 정보를 한 눈에 보는 사이트가 있다고? 모두의 펜션!?](https://youtu.be/ZZpLt255E6c)
 
 ## 5. 데모영상 썸네일 (280*160)
 
----
-
 ## 6. Git Repository (github)
-
----
-
-[Hanghae99-Team34-1stWeek/miniProject](
+[Hanghae99-Team34-1stWeek/miniProject](https://github.com/Hanghae99-Team34-1stWeek/miniProject)
